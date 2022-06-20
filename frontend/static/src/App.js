@@ -1,23 +1,34 @@
-import logo from './logo.svg';
+import { useState } from 'react';
 import './App.css';
+import Cookies from 'js-cookie';
+import Homescreen from './components/Homescreen';
+import LoginScreen from './components/LoginScreen';
+
+function handleError(err) {
+  console.warn(err);
+}
+
 
 function App() {
+  const [isAuth, setIsAuth] = useState(!!Cookies.get('Authorization'));
+
+  const homescreen = (
+    <div className="main-page">
+      <ul>
+        
+      </ul>
+    </div>
+  )
+
+  const loginScreen = (
+    <div className="login-screen">
+      this is the login page
+    </div>
+  )
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      {isAuth ? <Homescreen /> : <LoginScreen setIsAuth={setIsAuth} />}
     </div>
   );
 }
