@@ -1,4 +1,5 @@
-import { useState, useEffect } from 'react'
+import { useEffect } from 'react'
+import ArticleDetail from './ArticleDetail';
 
 function handleError(err) {
     console.warn(err);
@@ -26,19 +27,16 @@ const ArticleList = ({ articles, setArticles }) => {
 
 
     const articleList = articles.map(article => (
-        <li key={article.id}>
-            <img src={article.image} alt="a newspaper" width='50%' />
-            <h2>{article.title}</h2>
-            <p>{article.username}</p>
-            <p>{article.body}</p>
-        </li>
+        <ArticleDetail key={article.id} {...article} articles={articles} setArticles={setArticles}/>
     ))
 
 
     return (
-        <ul>
-            {articleList}
-        </ul>
+        <div className='mt-2'>
+            <ul className='sm:mx-auto sm:w-2/3 lg:w-1/2'>
+                {articleList}
+            </ul>
+        </div>
     );
 }
 

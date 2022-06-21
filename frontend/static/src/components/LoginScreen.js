@@ -38,11 +38,14 @@ const LoginScreen = ({ setIsAuth }) => {
     }
 
     return (
-        <form onSubmit={handleSubmit}>
-            <input type="text" name='username' id='username' value={username} placeholder='Username' required onChange={(e) => setUsername(e.target.value)} />
-            <input type="password" name='password' id='password' value={password} placeholder='Password' required onChange={(e) => setPassword(e.target.value)} />
-            <button type='submit'>Login</button>
+        <div className='h-screen flex flex-col justify-center items-center'>
+            <h1 className='p-3 my-3 font-bold text-2xl'>NEWS APP</h1>
+        <form onSubmit={handleSubmit} className='flex flex-col bg-neutral-500 p-5 rounded-md'>
+            <input className='m-2 p-1 rounded-md' type="text" name='username' id='username' value={username} placeholder='Username' required onChange={(e) => setUsername(e.target.value)} />
+            <input className='m-2 p-1 rounded-md' type="password" name='password' id='password' value={password} placeholder='Password' required onChange={(e) => setPassword(e.target.value)} />
+            <button type='submit' className='mt-2 p-1 bg-emerald-700 font-bold rounded-md'>Login</button>
         </form>
+        </div>
     );
 }
 

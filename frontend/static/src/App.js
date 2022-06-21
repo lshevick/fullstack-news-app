@@ -27,8 +27,8 @@ function App() {
   )
 
   return (
-    <div className="App">
-      {isAuth ? <Homescreen /> : <LoginScreen setIsAuth={setIsAuth} />}
+    <div className="App bg-neutral-700 h-full">
+      {isAuth ? <Homescreen setIsAuth={setIsAuth} /> : <LoginScreen setIsAuth={setIsAuth} />}
     </div>
   );
 }
