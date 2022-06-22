@@ -9,6 +9,10 @@ class Article(models.Model):
     body = models.TextField(max_length=900)
     image = models.ImageField(upload_to='profiles/')
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, blank=True)
+    is_published = models.BooleanField(default=False)
+    is_draft = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True, null=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.title

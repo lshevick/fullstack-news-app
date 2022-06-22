@@ -5,7 +5,7 @@ function handleError(err) {
     console.warn(err);
 }
 
-const ArticleList = ({ articles, setArticles }) => {
+const ArticleList = ({ articles, setArticles, isAuth }) => {
 
 
     const getArticles = async () => {
@@ -27,7 +27,7 @@ const ArticleList = ({ articles, setArticles }) => {
 
 
     const articleList = articles.map(article => (
-        <ArticleDetail key={article.id} {...article} articles={articles} setArticles={setArticles}/>
+        <ArticleDetail key={article.id} {...article} articles={articles} setArticles={setArticles} isAuth={isAuth} />
     ))
 
 

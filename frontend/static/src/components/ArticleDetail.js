@@ -5,7 +5,7 @@ function handleError(err) {
     console.warn(err);
 }
 
-const ArticleDetail = ({ id, image, title, body, username, articles, setArticles }) => {
+const ArticleDetail = ({ id, image, title, body, username, is_draft, articles, setArticles, isAuth }) => {
     const [isEditing, setIsEditing] = useState(false);
     const [newImage, setNewImage] = useState(image);
     const [newTitle, setNewTitle] = useState(title);
@@ -35,6 +35,7 @@ const ArticleDetail = ({ id, image, title, body, username, articles, setArticles
             method: 'PUT',
             headers: {
                 'X-CSRFToken': Cookies.get('csrftoken'),
+                'Authorization': Cookies.get('Authorization'),
             },
             body: formData
         }
@@ -62,6 +63,7 @@ const ArticleDetail = ({ id, image, title, body, username, articles, setArticles
 
     const articlePreview = (
         <li key={id} className='mt-4 p-3 bg-neutral-500'>
+                {is_draft && <p className='text-red-600 font-extrabold'>DRAFT</p>}
             <div className='flex justify-center'>
                 <img src={image} alt="a newspaper" width='90%' />
             </div>
@@ -71,7 +73,7 @@ const ArticleDetail = ({ id, image, title, body, username, articles, setArticles
                     <h2 className='w-fill font-bold'>{title}</h2>
                     <p className='w-fill font-light'>{username}</p>
                 </div>
-                <button className='bg-neutral-700 h-fit my-3 p-1 text-white rounded-md text-sm hover:bg-neutral-600' onClick={() => setIsEditing(true)}>Edit</button>
+                { isAuth && <button className='bg-neutral-700 h-fit my-3 p-1 text-white rounded-md text-sm hover:bg-neutral-600' onClick={() => setIsEditing(true)}>Edit</button>}
             </div>
 
             <div className='p-2'>
