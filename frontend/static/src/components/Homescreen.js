@@ -1,8 +1,7 @@
 import { useEffect, useState } from 'react'
-import ArticleForm from './ArticleForm';
 import ArticleList from './ArticleList';
 import Cookies from 'js-cookie';
-import ArticleDetail from './ArticleDetail';
+import DashboardView from './DashboardView';
 
 function handleError(err) {
     console.warn(err);
@@ -11,8 +10,6 @@ function handleError(err) {
 const Homescreen = ({ setIsAuth, isAuth }) => {
     const [screen, setScreen] = useState('newsfeed')
     const [articles, setArticles] = useState([]);
-    const [userArticles, setUserArticles] = useState([]);
-    const [userSubmittedArticles, setUserSubmittedArticles] = useState([]);
     const [isAdmin, setIsAdmin] = useState(false);
 
 
@@ -40,74 +37,6 @@ const Homescreen = ({ setIsAuth, isAuth }) => {
         setIsAuth(false)
     }
 
-    useEffect(() => {
-        const getUserArticles = async () => {
-
-            const options = {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Token ${Cookies.get('Authorization')}`,
-                    'X-CSRFToken': Cookies.get('csrftoken'),
-                },
-            }
-            const response = await fetch(`/api/v1/articles/author/drafts/`, options).catch(handleError);
-            if (!response.ok) {
-                throw new Error('Network response not ok');
-            }
-            const json = await response.json();
-            setUserArticles(json);
-        }
-        getUserArticles()
-    }, [])
-
-    useEffect(() => {
-        const getUserSubmittedArticles = async () => {
-
-            const options = {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Token ${Cookies.get('Authorization')}`,
-                    'X-CSRFToken': Cookies.get('csrftoken'),
-                },
-            }
-            const response = await fetch(`/api/v1/articles/author/submitted/`, options).catch(handleError);
-            if (!response.ok) {
-                throw new Error('Network response not ok');
-            }
-            const json = await response.json();
-            setUserSubmittedArticles(json);
-        }
-        getUserSubmittedArticles()
-    }, [])
-
-    const dashboardView = (
-        <div className=''>
-            <div className='drafts w-2/3 lg:w-1/3 mx-auto p-4 px-8 bg-neutral-400 rounded-md'>
-                <h2>Drafts</h2>
-                <div>
-                    <ul>
-                        {userArticles.map(item => 
-                            <ArticleDetail key={item.id} {...item} articles={articles} setArticles={setArticles} isAuth={isAuth}/>
-                            )}
-                    </ul>
-                </div>
-            </div>
-            <div className="submitted mt-10 bg-neutral-400 rounded-md p4 px-8 w-2/3 lg:w-1/3 mx-auto">
-                <h2>Submitted</h2>
-                <div>
-                    <ul>
-                        {userSubmittedArticles.map(item => 
-                            <ArticleDetail key={item.id} {...item} articles={articles} setArticles={setArticles} isAuth={isAuth} />
-                            )}
-                    </ul>
-                </div>
-            </div>
-            <ArticleForm articles={articles} userArticles={userArticles} setUserArticles={setUserArticles} />
-        </div>
-    )
-
     return (
         <div className='h-full'>
             <nav className='py-2 h-16 flex sm:justify-between justify-end items-center bg-neutral-500 fixed top-0 w-full'>
@@ -121,7 +50,7 @@ const Homescreen = ({ setIsAuth, isAuth }) => {
 
             <div className='bg-neutral-700 p-4 pt-20'>
                 {screen === 'newsfeed' && <ArticleList articles={articles} setArticles={setArticles} isAuth={isAuth} />}
-                {screen === 'articleForm' && dashboardView}
+                {screen === 'articleForm' && <DashboardView articles={articles} setArticles={setArticles} isAuth={isAuth} />}
             </div>
 
         </div>
