@@ -9,9 +9,9 @@ const UnAuthView = ({isAuth, setIsAuth}) => {
     return (
         <div className='h-full'>
             <nav className='py-2 h-16 flex sm:justify-between justify-end items-center bg-neutral-500 fixed top-0 w-full'>
-                <h1 className='hidden sm:block font-bold text-2xl mx-3'>NEWS YAY</h1>
+                <h1 className='hidden sm:block font-bold text-2xl mx-3 text-pink-800'>NEWS YAY</h1>
                 <div className='h-full flex items-center'>
-                    <button type='button' className='mx-2 p-1 bg-blue-800 text-white rounded-md shadow-neutral-600 drop-shadow-md' onClick={() => setScreen('login')}>Login</button>
+                    <button type='button' className='mx-2 p-1 hover:underline' onClick={() => setScreen('login')}>Login</button>
                 </div>
             </nav>
 

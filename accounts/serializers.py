@@ -13,6 +13,7 @@ class ProfileSerializer(serializers.ModelSerializer):
 
 class TokenSerializer(serializers.ModelSerializer):
     username = serializers.ReadOnlyField(source='user.username')
+
     
     class Meta:
         model = TokenModel

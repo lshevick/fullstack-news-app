@@ -51,6 +51,7 @@ const ArticleForm = ({ articles, userArticles, setUserArticles }) => {
         setUserArticles([...userArticles, json])
         setTitle('')
         setBody('')
+        setIsDraft(false)
         setImage(null)
     }
 
@@ -71,7 +72,10 @@ const ArticleForm = ({ articles, userArticles, setUserArticles }) => {
                     <input className='m-1 p-1 bg-blue-600 w-5/6 rounded-md file:rounded file:border-none file:bg-blue-300' type="file" name='photo' id='photo' onChange={handleImage} />
                     {image && <img src={preview} alt='newspaper img' width='25%' />}
                 </div>
-                <button type='button' onClick={() => setIsDraft(true)}>Save as Draft</button>
+                <div className='flex'>
+                <p className='p-1 my-auto'>Save as Draft</p>
+                <button type='button' className='h-5 w-5 my-auto ml-3 bg-white rounded-sm' onClick={() => setIsDraft(!isDraft)} >{isDraft ? 'X' : ''}</button>
+                </div>
                 <button type='submit' className=' mt-3 p-2 bg-emerald-700 rounded-md font-bold'>Submit Article</button>
             </form>
         </div>
