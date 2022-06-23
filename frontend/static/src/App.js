@@ -4,6 +4,7 @@ import Cookies from 'js-cookie';
 import Homescreen from './components/Homescreen';
 import LoginScreen from './components/LoginScreen';
 import UnAuthView from './components/UnAuthView';
+import { Outlet, useNavigate } from 'react-router-dom';
 
 // function handleError(err) {
 //   console.warn(err);
@@ -19,9 +20,12 @@ import UnAuthView from './components/UnAuthView';
 function App() {
   const [isAuth, setIsAuth] = useState(!!Cookies.get('Authorization'));
 
+  const navigate = useNavigate();
+
   return (
     <div className="App bg-neutral-700 h-full">
-      {isAuth ? <Homescreen setIsAuth={setIsAuth} isAuth={isAuth} /> : <UnAuthView  isAuth={isAuth} setIsAuth={setIsAuth} />}
+      {isAuth ? <Homescreen setIsAuth={setIsAuth} isAuth={isAuth} navigate={navigate} /> : <UnAuthView  isAuth={isAuth} setIsAuth={setIsAuth} />}
+      <Outlet context={[isAuth, setIsAuth, navigate]}/>
     </div>
   );
 }

@@ -1,11 +1,13 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import ArticleDetail from './ArticleDetail';
 
 function handleError(err) {
     console.warn(err);
 }
 
-const ArticleList = ({ articles, setArticles, isAuth }) => {
+const ArticleList = ({ /*articles, setArticles,*/ isAuth }) => {
+    const [articles, setArticles] = useState([]);
+
 
 
     const getArticles = async () => {
@@ -32,7 +34,7 @@ const ArticleList = ({ articles, setArticles, isAuth }) => {
 
 
     return (
-        <div className='mt-2'>
+        <div className='py-20 px-5 bg-neutral-700'>
             <ul className='sm:mx-auto sm:w-2/3 lg:w-1/2'>
                 {articleList}
             </ul>

@@ -5,12 +5,12 @@ function handleError(err) {
     console.warn(err);
 }
 
-const ArticleDetail = ({ id, image, title, body, username, is_draft, is_published, articles, setArticles, isAuth }) => {
+const ArticleDetail = ({ id, image, title, body, username, is_draft, is_published, articles, setArticles, isAuth, userSubmittedArticles, setUserSubmittedArticles, userArticles, setUserArticles }) => {
     const [isEditing, setIsEditing] = useState(false);
     const [newImage, setNewImage] = useState(image);
     const [newTitle, setNewTitle] = useState(title);
     const [newBody, setNewBody] = useState(body);
-    const [preview, setPreview] = useState(image); // update this to a url
+    const [preview, setPreview] = useState(image);
     const [isNewDraft, setIsNewDraft] = useState(is_draft);
 
 
@@ -36,11 +36,11 @@ const ArticleDetail = ({ id, image, title, body, username, is_draft, is_publishe
         const formData = new FormData();
         formData.append('title', newTitle);
         formData.append('body', newBody);
-    if (checkForURL(image)) {formData.append('image', image)} else {formData.append('image', newImage)}
+    if (checkForURL(image)) {} else {formData.append('image', newImage)}
         formData.append('is_draft', isNewDraft);
 
         const options = {
-            method: 'PATCH',
+            method: 'PUT',
             headers: {
                 'X-CSRFToken': Cookies.get('csrftoken'),
                 'Authorization': Cookies.get('Authorization'),
@@ -55,8 +55,8 @@ const ArticleDetail = ({ id, image, title, body, username, is_draft, is_publishe
         }
 
         const json = await response.json();
-
-        setArticles(articles.map(i => i.id !== json.id ? i : json))
+        console.log(userArticles);
+        setUserArticles(userArticles.map(i => i.id !== json.id ? i : json))
     }
 
     const handleSubmit = e => {
@@ -81,7 +81,7 @@ const ArticleDetail = ({ id, image, title, body, username, is_draft, is_publishe
                     <h2 className='w-fill font-bold'>{title}</h2>
                     <p className='w-fill font-light'>{username}</p>
                 </div>
-                {!is_published && <button className='bg-neutral-700 h-fit my-3 p-1 text-white rounded-md text-sm hover:bg-neutral-600' onClick={() => setIsEditing(true)}>Edit</button>}
+                {!is_published && ( is_draft && <button className='bg-neutral-700 h-fit my-3 p-1 text-white rounded-md text-sm hover:bg-neutral-600' onClick={() => setIsEditing(true)}>Edit</button>)}
             </div>
 
             <div className='p-2'>

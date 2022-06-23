@@ -1,5 +1,6 @@
 import { useState } from "react"
 import Cookies from "js-cookie"
+import { Link } from "react-router-dom";
 
 function handleError(err) {
     console.warn(err);
@@ -52,13 +53,19 @@ const RegisterForm = ({ setScreen }) => {
     const isRegistered = (
         <div>
             <p>Thank you for signing up!</p>
-            <button type="button" onClick={() => setScreen('login')} className='underline font-bold'>Login</button>
+            {/* <button type="button" onClick={() => setScreen('login')} className='underline font-bold'>Login</button> */}
+            <Link to='/login'>Login</Link>
+
         </div>
     )
 
 
     return (
-        <>
+        // <>
+        <div className='h-screen flex flex-col justify-center items-center'>
+            <h1 className='p-3 my-3 font-bold text-3xl font-serif'>NEWS APP</h1>
+
+
             <form className='flex flex-col text-left bg-neutral-500 p-5 px-10 rounded-md h-1/3 justify-between' onSubmit={handleSubmit}>
                     <label htmlFor="username" aria-label="username"></label>
                     <input className="bg-neutral-200 p-1 rounded-md text-black" placeholder="Username" type="text" name="username" id="username" value={state.username} autoComplete='off' required onChange={handleInput} />
@@ -71,9 +78,11 @@ const RegisterForm = ({ setScreen }) => {
                 <button type="submit" className="mt-3 bg-emerald-700 w-1/2 text-center rounded-md p-1 border-emerald-900 border-2 hover:bg-emerald-600">Register</button>
 
             </form>
-            <button className='underline m-5' type="button" onClick={() => setScreen('login')}>Back to Login</button>
+            {/* <button className='underline m-5' type="button" onClick={() => setScreen('login')}>Back to Login</button> */}
+            <Link to='/login'>Back to Login</Link>
             {registered && isRegistered}
-        </>
+        {/* </> */}
+        </div>
     );
 }
 

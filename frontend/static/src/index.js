@@ -4,8 +4,10 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import UnAuthView from './components/UnAuthView';
+import ArticleList from './components/ArticleList';
 import LoginScreen from './components/LoginScreen';
+import DashboardView from './components/DashboardView';
+import RegisterForm from './components/RegisterForm';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -13,9 +15,16 @@ root.render(
     <BrowserRouter>
       <Routes>
         <Route path='/' element={<App />}>
-          <Route path='newsfeed' element={UnAuthView}/>
-          <Route path='' element={LoginScreen}/>
+          <Route path='' element={<ArticleList/>}/>
+          <Route path='dashboard' element={<DashboardView/>}/>
+          <Route path='login' element={<LoginScreen/>}/>
+          <Route path='register' element={<RegisterForm/>}/>
         </Route>
+        <Route path='*' element={
+          <main style={{padding: '1rem'}}>
+            <p>There's nothing here!</p>
+          </main>
+        }/>
       </Routes>
     </BrowserRouter>
   </React.StrictMode>

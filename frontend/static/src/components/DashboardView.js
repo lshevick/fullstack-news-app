@@ -54,23 +54,23 @@ const DashboardView = ({ articles, setArticles, isAuth }) => {
     }, [])
 
     return (
-        <div className=''>
+        <div className='py-20 px-5'>
             <div className='drafts w:5/6 md:w-2/3 lg:w-1/3 mx-auto p-4 px-8 bg-neutral-400 rounded-md'>
-                <h2>Drafts</h2>
+                <h2 className='text-2xl font-bold underline'>Drafts</h2>
                 <div>
                     <ul>
                         {userArticles.map(item =>
-                            <ArticleDetail key={item.id} {...item} articles={articles} setArticles={setArticles} isAuth={isAuth} />
+                            <ArticleDetail key={item.id} {...item} userArticles={userArticles} setUserArticles={setUserArticles} isAuth={isAuth} />
                         )}
                     </ul>
                 </div>
             </div>
-            <div className="submitted mt-10 bg-neutral-400 rounded-md p4 px-8 w:5/6 md:w-2/3 lg:w-1/3 mx-auto">
-                <h2>Submitted</h2>
+            <div className="submitted mt-10 bg-neutral-400 rounded-md p-4 px-8 w:5/6 md:w-2/3 lg:w-1/3 mx-auto">
+                <h2 className='text-2xl font-bold underline'>Submitted</h2>
                 <div>
                     <ul>
                         {userSubmittedArticles.map(item =>
-                            <ArticleDetail key={item.id} {...item} articles={articles} setArticles={setArticles} isAuth={isAuth} />
+                            <ArticleDetail key={item.id} {...item} userSubmittedArticles={userSubmittedArticles} setUserSubmittedArticles={setUserSubmittedArticles} isAuth={isAuth} />
                         )}
                     </ul>
                 </div>
