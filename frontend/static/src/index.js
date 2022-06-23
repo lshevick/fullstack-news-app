@@ -8,6 +8,7 @@ import ArticleList from './components/ArticleList';
 import LoginScreen from './components/LoginScreen';
 import DashboardView from './components/DashboardView';
 import RegisterForm from './components/RegisterForm';
+import Review from './components/Review';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -19,6 +20,7 @@ root.render(
           <Route path='dashboard' element={<DashboardView/>}/>
           <Route path='login' element={<LoginScreen/>}/>
           <Route path='register' element={<RegisterForm/>}/>
+          <Route path='review' element={<Review/>}/>
         </Route>
         <Route path='*' element={
           <main style={{padding: '1rem'}}>

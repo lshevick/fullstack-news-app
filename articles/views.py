@@ -3,7 +3,7 @@ from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAdminUser
 
 from .models import Article 
 from .serializers import ArticleSerializer
-from .permissions import IsAuthorOrReadOnly
+from .permissions import IsAuthorOrReadOnly, IsAdminOrIsAuthor
 
 # Create your views here.
 
@@ -28,7 +28,7 @@ class PublishedArticlesAPIView(generics.ListAPIView):
 class ArticleDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Article.objects.all()
     serializer_class = ArticleSerializer
-    permission_classes = (IsAuthorOrReadOnly,)
+    permission_classes = (IsAuthenticatedOrReadOnly,)
 
 
 class ArticlesByUserAPIView(generics.ListCreateAPIView):
@@ -67,6 +67,20 @@ class SubmittedArticlesAPIView(generics.ListCreateAPIView):
 
 
 class SubmittedDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
+    serializer_class = ArticleSerializer
+    permission_classes = (IsAdminUser,)
+
+    def get_queryset(self):
+        return Article.objects.filter(is_published=False, is_draft=False)
+
+
+class CheckIfUserIsAdminView(generics.ListAPIView):
+    permission_classes = (IsAdminUser,)
+    serializer_class = ArticleSerializer
+    queryset = Article.objects.all()
+
+
+class ReviewArticlesAPIView(generics.ListAPIView):
     serializer_class = ArticleSerializer
     permission_classes = (IsAdminUser,)
 

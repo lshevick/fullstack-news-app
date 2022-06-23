@@ -66,7 +66,7 @@ const DashboardView = ({ articles, setArticles, isAuth }) => {
                 </div>
             </div>
             <div className="submitted mt-10 bg-neutral-400 rounded-md p-4 px-8 w:5/6 md:w-2/3 lg:w-1/3 mx-auto">
-                <h2 className='text-2xl font-bold underline'>Submitted</h2>
+                <h2 className='text-2xl font-bold underline'>In Review</h2>
                 <div>
                     <ul>
                         {userSubmittedArticles.map(item =>

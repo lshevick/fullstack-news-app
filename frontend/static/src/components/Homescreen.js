@@ -14,7 +14,17 @@ const Homescreen = ({ setIsAuth, isAuth, navigate }) => {
     const [isAdmin, setIsAdmin] = useState(false);
 
 
+    const checkIfAdmin = async () => {
+        const response = await fetch(`/api/v1/articles/admin/`).catch(handleError);
+        if (!response.ok) {
+            throw new Error('Network response not ok');
+        }
+        setIsAdmin(true);
+    }
 
+    useEffect(() => {
+        checkIfAdmin()
+    }, [])
 
 
     const userLogout = async () => {
@@ -48,13 +58,14 @@ const Homescreen = ({ setIsAuth, isAuth, navigate }) => {
                 <button type='button' className='mx-2 p-1 bg-red-800 text-white rounded-md shadow-neutral-600 drop-shadow-md' onClick={() => userLogout()}>Logout</button> */}
                     <Link className='mx-3 text-lg hover:underline' to='/'>Newsfeed</Link>
                     <Link className='mx-3 text-lg hover:underline' to='/dashboard'>Dashboard</Link>
-                    <button type='button' className='mx-2 p-1 bg-red-800 text-white rounded-md shadow-neutral-600 drop-shadow-md' onClick={() => {userLogout(); navigate('/')}}>Logout</button>
+                    {isAdmin && <Link className='mx-3 text-lg hover:underline' to='/review'>Review</Link>}
+                    <button type='button' className='mx-2 p-1 bg-red-800 text-white rounded-md shadow-neutral-600 drop-shadow-md' onClick={() => { userLogout(); navigate('/') }}>Logout</button>
                 </div>
             </nav>
 
             {/* <div className='bg-neutral-700 p-4 pt-20'> */}
-                {/* <ArticleList articles={articles} setArticles={setArticles} isAuth={isAuth} /> */}
-                {/* {screen === 'articleForm' && <DashboardView articles={articles} setArticles={setArticles} isAuth={isAuth} />} */}
+            {/* <ArticleList articles={articles} setArticles={setArticles} isAuth={isAuth} /> */}
+            {/* {screen === 'articleForm' && <DashboardView articles={articles} setArticles={setArticles} isAuth={isAuth} />} */}
             {/* </div> */}
 
         </div>

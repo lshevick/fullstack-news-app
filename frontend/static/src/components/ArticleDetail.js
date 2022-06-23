@@ -1,23 +1,36 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Cookies from 'js-cookie';
 
 function handleError(err) {
     console.warn(err);
 }
 
-const ArticleDetail = ({ id, image, title, body, username, is_draft, is_published, articles, setArticles, isAuth, userSubmittedArticles, setUserSubmittedArticles, userArticles, setUserArticles }) => {
+const ArticleDetail = ({ id, image, title, body, username, is_draft, is_published, articles, setArticles, isAuth, userSubmittedArticles, setUserSubmittedArticles, userArticles, setUserArticles, review, setReview }) => {
     const [isEditing, setIsEditing] = useState(false);
     const [newImage, setNewImage] = useState(image);
     const [newTitle, setNewTitle] = useState(title);
     const [newBody, setNewBody] = useState(body);
     const [preview, setPreview] = useState(image);
     const [isNewDraft, setIsNewDraft] = useState(is_draft);
+    const [isAdmin, setIsAdmin] = useState(false);
+
+
+    const checkIfAdmin = async () => {
+        const response = await fetch(`/api/v1/articles/admin/`).catch(handleError);
+        if (!response.ok) {
+            throw new Error('Network response not ok');
+        }
+        setIsAdmin(true);
+    }
+
+    useEffect(() => {
+        checkIfAdmin()
+    }, [])
 
 
     const handleImage = e => {
         const file = e.target.files[0];
         setNewImage(file)
-
         const reader = new FileReader();
         reader.onloadend = () => {
             setPreview(reader.result);
@@ -36,7 +49,7 @@ const ArticleDetail = ({ id, image, title, body, username, is_draft, is_publishe
         const formData = new FormData();
         formData.append('title', newTitle);
         formData.append('body', newBody);
-    if (checkForURL(image)) {} else {formData.append('image', newImage)}
+        if (checkForURL(newImage)) { } else { formData.append('image', newImage) }
         formData.append('is_draft', isNewDraft);
 
         const options = {
@@ -55,13 +68,40 @@ const ArticleDetail = ({ id, image, title, body, username, is_draft, is_publishe
         }
 
         const json = await response.json();
-        console.log(userArticles);
+        console.log(Cookies.get('Authorization'));
         setUserArticles(userArticles.map(i => i.id !== json.id ? i : json))
     }
 
-    const handleSubmit = e => {
+    const adminSaveChanges = async (id) => {
+        const formData = new FormData();
+        formData.append('title', newTitle);
+        formData.append('body', newBody);
+        if (checkForURL(newImage)) { } else { formData.append('image', newImage) }
+        formData.append('is_draft', isNewDraft);
+
+        const options = {
+            method: 'PUT',
+            headers: {
+                'X-CSRFToken': Cookies.get('csrftoken'),
+                'Authorization': Cookies.get('Authorization'),
+            },
+            body: formData
+        }
+
+        const response = await fetch(`api/v1/articles/author/submitted/${id}/`, options).catch(handleError);
+
+        if (!response.ok) {
+            throw new Error('Network response is not ok')
+        }
+
+        const json = await response.json();
+        console.log(Cookies.get('Authorization'));
+        setReview(review.map(i => i.id !== json.id ? i : json))
+    }
+
+    const handleSubmit = (e) => {
         e.preventDefault();
-        saveChanges(id);
+        isAdmin ? adminSaveChanges(id) : saveChanges(id);
         setNewTitle(title)
         setNewBody(body)
         setNewImage(null)
@@ -71,7 +111,7 @@ const ArticleDetail = ({ id, image, title, body, username, is_draft, is_publishe
 
     const articlePreview = (
         <li key={id} className='mt-4 p-3 bg-neutral-500'>
-            {is_draft && <p className='text-red-600 font-extrabold'>DRAFT</p>}
+            {is_draft && <p className='text-red-800 font-extrabold text-3xl'>DRAFT</p>}
             <div className='flex justify-center'>
                 <img src={image} alt="a newspaper" width='90%' />
             </div>
@@ -81,7 +121,7 @@ const ArticleDetail = ({ id, image, title, body, username, is_draft, is_publishe
                     <h2 className='w-fill font-bold'>{title}</h2>
                     <p className='w-fill font-light'>{username}</p>
                 </div>
-                {!is_published && ( is_draft && <button className='bg-neutral-700 h-fit my-3 p-1 text-white rounded-md text-sm hover:bg-neutral-600' onClick={() => setIsEditing(true)}>Edit</button>)}
+                {!is_published && ((is_draft || username) && <button className='bg-neutral-700 h-fit my-3 p-1 text-white rounded-md text-sm hover:bg-neutral-600' onClick={() => setIsEditing(true)}>Edit</button>)}
             </div>
 
             <div className='p-2'>
