@@ -40,7 +40,6 @@ const LoginScreen = () => {
 
         Cookies.set('Authorization', `${json.key}`);
         Cookies.set('isAdmin', `${username}`)
-        console.log(json);
         setIsAuth(true);
         setIsAdmin(username);
         navigate('/');

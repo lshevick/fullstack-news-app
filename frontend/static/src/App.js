@@ -24,7 +24,6 @@ function App() {
 
 
   const navigate = useNavigate();
-  console.log(Object.keys(Cookies));
 
   return (
     <div className="App bg-neutral-700 h-full">

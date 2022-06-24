@@ -43,11 +43,8 @@ const Homescreen = ({ setIsAuth, isAuth, navigate, isAdmin }) => {
     return (
         <div className='h-full'>
             <nav className='py-2 h-16 flex sm:justify-between justify-end items-center bg-neutral-500 fixed top-0 w-full'>
-                <h1 className='hidden sm:block font-bold text-2xl mx-3 text-pink-800'>NEWS YAY</h1>
+                <h1 className='hidden sm:block font-bold text-4xl mx-3 text-pink-800'>NEWS YAY</h1>
                 <div className='h-full flex items-center'>
-                    {/* <button type='button' className='mx-2 p-1 bg-cyan-800 text-white rounded-md shadow-neutral-600 drop-shadow-md' onClick={() => setScreen('newsfeed')}>Newsfeed</button>
-                    <button type='button' className='mx-2 p-1 bg-cyan-800 text-white rounded-md shadow-neutral-600 drop-shadow-md' onClick={() => setScreen('articleForm')}>Dashboard</button>
-                <button type='button' className='mx-2 p-1 bg-red-800 text-white rounded-md shadow-neutral-600 drop-shadow-md' onClick={() => userLogout()}>Logout</button> */}
                     <NavLink className='mx-3 text-lg hover:underline hover:text-neutral-700' to='/' style={({ isActive }) =>
                         isActive ? activeStyle : undefined
                     }>Newsfeed</NavLink>
@@ -60,12 +57,6 @@ const Homescreen = ({ setIsAuth, isAuth, navigate, isAdmin }) => {
                     <button type='button' className='mx-2 p-1 bg-red-800 text-white rounded-md shadow-neutral-600 drop-shadow-md' onClick={() => { userLogout(); navigate('/') }}>Logout</button>
                 </div>
             </nav>
-
-            {/* <div className='bg-neutral-700 p-4 pt-20'> */}
-            {/* <ArticleList articles={articles} setArticles={setArticles} isAuth={isAuth} /> */}
-            {/* {screen === 'articleForm' && <DashboardView articles={articles} setArticles={setArticles} isAuth={isAuth} />} */}
-            {/* </div> */}
-
         </div>
 
     );

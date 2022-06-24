@@ -57,16 +57,16 @@ const ArticleForm = ({ articles, userArticles, setUserArticles }) => {
 
 
     return (
-        <div className='h-full my-10 flex flex-col justify-center items-center bg-neutral-700'>
+        <div className='h-screen my-10 flex flex-col justify-center items-center'>
 
-            <form onSubmit={handleSubmit} className='bg-neutral-400 p-3 flex flex-col justify-center items-center w-5/6 rounded-md md:w-1/3 lg:w-full'>
+            <form onSubmit={handleSubmit} className='bg-neutral-300 p-3 flex flex-col justify-center items-center w-5/6 rounded-md md:w-1/3 lg:w-full'>
                 <h2 className='my-5 p-2 bg-neutral-500 w-2/3 text-lg font-bold rounded-md'>Create a New Article</h2>
 
                 <label htmlFor="title"></label>
-                <input className='m-1 p-1 w-2/3 bg-neutral-200 text-black rounded-md' type="text" id='title' name='title' autoComplete='off' value={title} required onChange={(e) => setTitle(e.target.value)} placeholder='Title' />
+                <input className='m-1 p-1 w-2/3 bg-neutral-100 text-black rounded-md' type="text" id='title' name='title' autoComplete='off' value={title} required onChange={(e) => setTitle(e.target.value)} placeholder='Title' />
 
                 <label htmlFor="body"></label>
-                <input className='m-1 p-1 w-2/3 bg-neutral-200 text-black rounded-md' type="text" name='body' id='body' value={body} autoComplete='off' onChange={(e) => setBody(e.target.value)} placeholder='Article Body' />
+                <input className='m-1 p-1 w-2/3 bg-neutral-100 text-black rounded-md' type="text" name='body' id='body' value={body} autoComplete='off' onChange={(e) => setBody(e.target.value)} placeholder='Article Body' />
 
                 <div>
                     <input className='m-1 p-1 bg-blue-600 w-5/6 rounded-md file:rounded file:border-none file:bg-blue-300' type="file" name='photo' id='photo' onChange={handleImage} />

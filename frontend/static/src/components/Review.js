@@ -30,11 +30,11 @@ const Review = () => {
     }, [])
 
     return (
-        <div className='p-4 py-20 flex flex-col items-center'>
+        <div className='p-4 py-20 flex flex-col items-center min-h-screen'>
             <div className='md:w-1/3 w-5/6'>
                 <ul>
                     {review.map(item => 
-                        <ArticleDetail key={item.id} {...item} review={review} setReview={setReview} />
+                        <ArticleDetail key={item.id} {...item} review={review} setReview={setReview} getReviewArticles={getReviewArticles} />
                     )}
                 </ul>
             </div>

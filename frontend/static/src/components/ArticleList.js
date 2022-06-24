@@ -29,7 +29,7 @@ const ArticleList = ({ /*articles, setArticles,*/ isAuth }) => {
 
 
     const articleList = articles.map(article => (
-        <ArticleDetail key={article.id} {...article} articles={articles} setArticles={setArticles} isAuth={isAuth} />
+        <ArticleDetail key={article.id} {...article} articles={articles} setArticles={setArticles} isAuth={isAuth} getArticles={getArticles} />
     ))
 
 

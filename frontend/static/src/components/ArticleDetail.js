@@ -5,14 +5,57 @@ function handleError(err) {
     console.warn(err);
 }
 
-const ArticleDetail = ({ id, image, title, body, username, is_draft, is_published, articles, setArticles, isAuth, userSubmittedArticles, setUserSubmittedArticles, userArticles, setUserArticles, review, setReview }) => {
+const ArticleDetail = ({ id, image, title, body, username, is_draft, is_published, articles, setArticles, isAuth, userSubmittedArticles, setUserSubmittedArticles, userArticles, setUserArticles, review, setReview, getReviewArticles, getArticles }) => {
     const [isEditing, setIsEditing] = useState(false);
     const [newImage, setNewImage] = useState(image);
     const [newTitle, setNewTitle] = useState(title);
     const [newBody, setNewBody] = useState(body);
     const [preview, setPreview] = useState(image);
     const [isNewDraft, setIsNewDraft] = useState(is_draft);
+    const [isPublished, setIsPublished] = useState(is_published);
 
+
+
+
+    const saveDraft = (
+        <div className='flex'>
+            <p className='p-1 my-auto'>Save as Draft</p>
+            <button type='button' className='h-5 w-5 my-auto ml-3 bg-white rounded-sm' onClick={() => setIsNewDraft(!isNewDraft)} >{isNewDraft ? 'X' : ''}</button>
+        </div>
+    )
+
+    const savePublish = (
+        <div className='flex'>
+            <p className='p-1 my-auto'>Publish</p>
+            <button type='button' className='h-5 w-5 my-auto ml-3 bg-white rounded-sm' onClick={() => setIsPublished(!isPublished)} >{isPublished ? 'X' : ''}</button>
+        </div>
+    )
+
+
+
+    const deleteArticle = async (id) => {
+        const options = {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': Cookies.get('csrftoken'),
+            },
+        }
+        const response = await fetch(`/api/v1/articles/${id}/`, options).catch(handleError);
+        if (!response.ok) {
+            throw new Error('Network response not ok');
+        }
+        // const json = await response.json();
+        // console.log(json)
+        getReviewArticles();
+        getArticles();
+    }
+
+    const deleteArticleButton = (
+        <div>
+            <button type='button' className='p-1 bg-rose-800 text-white rounded-md m-4 font-semibold hover:bg-rose-700' onClick={() => deleteArticle(id)}>Delete</button>
+        </div>
+    )
 
     const handleImage = e => {
         const file = e.target.files[0];
@@ -22,7 +65,7 @@ const ArticleDetail = ({ id, image, title, body, username, is_draft, is_publishe
             setPreview(reader.result);
         }
         reader.readAsDataURL(file);
-    } 
+    }
 
     const checkForURL = (i) => {
         const a = document.createElement('a');
@@ -63,7 +106,7 @@ const ArticleDetail = ({ id, image, title, body, username, is_draft, is_publishe
         formData.append('title', newTitle);
         formData.append('body', newBody);
         if (checkForURL(newImage)) { } else { formData.append('image', newImage) }
-        formData.append('is_draft', isNewDraft);
+        formData.append('is_published', isPublished);
 
         const options = {
             method: 'PUT',
@@ -85,9 +128,10 @@ const ArticleDetail = ({ id, image, title, body, username, is_draft, is_publishe
         setReview(review.map(i => i.id !== json.id ? i : json))
     }
 
+
     const handleSubmit = (e) => {
         e.preventDefault();
-        is_published ? adminSaveChanges(id) : saveChanges(id);
+        (Cookies.get('isAdmin') === 'admin' && !is_draft) ? adminSaveChanges(id) : saveChanges(id);
         setNewTitle(title)
         setNewBody(body)
         setNewImage(null)
@@ -96,7 +140,7 @@ const ArticleDetail = ({ id, image, title, body, username, is_draft, is_publishe
 
 
     const articlePreview = (
-        <li key={id} className='mt-4 p-3 bg-neutral-500'>
+        <li key={id} className='mt-4 p-3 bg-stone-400'>
             {is_draft && <p className='text-red-800 font-extrabold text-3xl'>DRAFT</p>}
             <div className='flex justify-center'>
                 <img src={image} alt="a newspaper" width='90%' />
@@ -107,7 +151,7 @@ const ArticleDetail = ({ id, image, title, body, username, is_draft, is_publishe
                     <h2 className='w-fill font-bold'>{title}</h2>
                     <p className='w-fill font-light'>{username}</p>
                 </div>
-                {!is_published && ((is_draft || username) && <button className='bg-neutral-700 h-fit my-3 p-1 text-white rounded-md text-sm hover:bg-neutral-600' onClick={() => setIsEditing(true)}>Edit</button>)}
+                {(is_draft || (Cookies.get('isAdmin') === 'admin')) && <button className='bg-neutral-700 h-fit my-3 p-1 text-white rounded-md text-sm hover:bg-neutral-600' onClick={() => setIsEditing(true)}>Edit</button>}
             </div>
 
             <div className='p-2'>
@@ -117,13 +161,13 @@ const ArticleDetail = ({ id, image, title, body, username, is_draft, is_publishe
     )
 
     const editingView = (
-        <li key={id} className='mt-4 p-3 bg-neutral-500'>
+        <li key={id} className='mt-4 p-3 bg-stone-400'>
 
             <form onSubmit={handleSubmit}>
 
                 <div className='flex flex-col items-center justify-center p-2'>
                     <img src={preview} alt="a newspaper" width='90%' />
-                    <input type="file" name='image' onChange={handleImage} />
+                    <input type="file" name='image' onChange={handleImage} className='file:bg-gray-200 file:border-none file:rounded-md file:mt-3 file:hover:bg-gray-300 file:cursor-pointer' />
                 </div>
 
                 <div className='flex justify-between mt-3'>
@@ -138,11 +182,13 @@ const ArticleDetail = ({ id, image, title, body, username, is_draft, is_publishe
                     <p>{body}</p>
                     <input type="text" name="body" id="body" value={newBody} onChange={(e) => setNewBody(e.target.value)} />
                 </div>
-                <div className='flex'>
-                    <p className='p-1 my-auto'>Save as Draft</p>
-                    <button type='button' className='h-5 w-5 my-auto ml-3 bg-white rounded-sm' onClick={() => setIsNewDraft(!isNewDraft)} >{isNewDraft ? 'X' : ''}</button>
+                <div className='flex flex-col'>
+                    {!is_draft ? savePublish : saveDraft}
                 </div>
-                <button type='submit' className='p-1 bg-emerald-600 text-white font-semibold rounded hover:bg-emerald-500'>Save Changes</button>
+                <div className='flex justify-center'>
+                    <button type='submit' className='p-1 bg-emerald-600 text-white font-semibold rounded hover:bg-emerald-500 m-4'>Save Changes</button>
+                    {!is_published ? deleteArticleButton : null}
+                </div>
             </form>
         </li>
     )
