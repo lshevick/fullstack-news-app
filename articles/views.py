@@ -1,9 +1,10 @@
 from rest_framework import generics
 from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAdminUser
+from django.db.models import Q
 
 from .models import Article 
 from .serializers import ArticleSerializer
-from .permissions import IsAuthorOrReadOnly, IsAdminOrIsAuthor
+from .permissions import IsAuthorOrReadOnly
 
 # Create your views here.
 
@@ -57,10 +58,9 @@ class DraftArticlesAPIView(generics.ListCreateAPIView):
 class SubmittedArticlesAPIView(generics.ListCreateAPIView):
     serializer_class = ArticleSerializer
 
-
     def get_queryset(self):
         author = self.request.user
-        return Article.objects.filter(is_published=False, is_draft=False, author=author.id)
+        return Article.objects.filter(is_published=False, is_draft=False, author=author.id) 
 
     def perform_create(self, serializer):
         serializer.save(author=self.request.user)
@@ -85,4 +85,4 @@ class ReviewArticlesAPIView(generics.ListAPIView):
     permission_classes = (IsAdminUser,)
 
     def get_queryset(self):
-        return Article.objects.filter(is_published=False, is_draft=False)
+        return Article.objects.filter(is_published=False).filter(is_draft=False) # THIS needs to be an or filter, and I probably need to make a new view just for the admin

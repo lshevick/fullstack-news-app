@@ -19,13 +19,17 @@ import { Outlet, useNavigate } from 'react-router-dom';
 
 function App() {
   const [isAuth, setIsAuth] = useState(!!Cookies.get('Authorization'));
+  const [isAdmin, setIsAdmin] = useState(Cookies.get('isAdmin'));
+
+
 
   const navigate = useNavigate();
+  console.log(Object.keys(Cookies));
 
   return (
     <div className="App bg-neutral-700 h-full">
-      {isAuth ? <Homescreen setIsAuth={setIsAuth} isAuth={isAuth} navigate={navigate} /> : <UnAuthView  isAuth={isAuth} setIsAuth={setIsAuth} />}
-      <Outlet context={[isAuth, setIsAuth, navigate]}/>
+      {isAuth ? <Homescreen setIsAuth={setIsAuth} isAuth={isAuth} navigate={navigate} isAdmin={isAdmin} /> : <UnAuthView isAuth={isAuth} setIsAuth={setIsAuth} />}
+      <Outlet context={[isAuth, setIsAuth, navigate, isAdmin, setIsAdmin]} />
     </div>
   );
 }

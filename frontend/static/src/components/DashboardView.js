@@ -54,7 +54,7 @@ const DashboardView = ({ articles, setArticles, isAuth }) => {
     }, [])
 
     return (
-        <div className='py-20 px-5'>
+        <div className='py-20 px-5 lg:flex lg:items-start lg:justify-start h-full'>
             <div className='drafts w:5/6 md:w-2/3 lg:w-1/3 mx-auto p-4 px-8 bg-neutral-400 rounded-md'>
                 <h2 className='text-2xl font-bold underline'>Drafts</h2>
                 <div>
@@ -65,7 +65,7 @@ const DashboardView = ({ articles, setArticles, isAuth }) => {
                     </ul>
                 </div>
             </div>
-            <div className="submitted mt-10 bg-neutral-400 rounded-md p-4 px-8 w:5/6 md:w-2/3 lg:w-1/3 mx-auto">
+            <div className="submitted mt-10 lg:mt-0 bg-neutral-400 rounded-md p-4 px-8 w:5/6 md:w-2/3 lg:w-1/3 mx-auto">
                 <h2 className='text-2xl font-bold underline'>In Review</h2>
                 <div>
                     <ul>

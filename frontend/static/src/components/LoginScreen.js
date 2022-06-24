@@ -11,8 +11,8 @@ const LoginScreen = () => {
     // const [screen, setScreen] = useState('login');
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    const [isAuth, setIsAuth] = useOutletContext();
-    const navigate = useNavigate();
+    const [isAuth, setIsAuth, navigate, isAdmin, setIsAdmin] = useOutletContext();
+
 
     const handleSubmit = async (e) => {
         const data = {
@@ -39,7 +39,10 @@ const LoginScreen = () => {
         const json = await response.json();
 
         Cookies.set('Authorization', `${json.key}`);
+        Cookies.set('isAdmin', `${username}`)
+        console.log(json);
         setIsAuth(true);
+        setIsAdmin(username);
         navigate('/');
     }
 

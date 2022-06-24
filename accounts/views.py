@@ -16,3 +16,5 @@ class ProfileListAPIView(generics.ListCreateAPIView):
     def perform_create(self, serializer):
         # serializer.save(user=get_object_or_404(User, id=1))
         serializer.save(user=self.request.user)
+
+

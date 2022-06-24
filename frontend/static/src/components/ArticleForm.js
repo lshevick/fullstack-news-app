@@ -59,7 +59,7 @@ const ArticleForm = ({ articles, userArticles, setUserArticles }) => {
     return (
         <div className='h-full my-10 flex flex-col justify-center items-center bg-neutral-700'>
 
-            <form onSubmit={handleSubmit} className='bg-neutral-400 p-3 flex flex-col justify-center items-center w-5/6 rounded-md md:w-1/3'>
+            <form onSubmit={handleSubmit} className='bg-neutral-400 p-3 flex flex-col justify-center items-center w-5/6 rounded-md md:w-1/3 lg:w-full'>
                 <h2 className='my-5 p-2 bg-neutral-500 w-2/3 text-lg font-bold rounded-md'>Create a New Article</h2>
 
                 <label htmlFor="title"></label>

@@ -12,20 +12,6 @@ const ArticleDetail = ({ id, image, title, body, username, is_draft, is_publishe
     const [newBody, setNewBody] = useState(body);
     const [preview, setPreview] = useState(image);
     const [isNewDraft, setIsNewDraft] = useState(is_draft);
-    const [isAdmin, setIsAdmin] = useState(false);
-
-
-    const checkIfAdmin = async () => {
-        const response = await fetch(`/api/v1/articles/admin/`).catch(handleError);
-        if (!response.ok) {
-            throw new Error('Network response not ok');
-        }
-        setIsAdmin(true);
-    }
-
-    useEffect(() => {
-        checkIfAdmin()
-    }, [])
 
 
     const handleImage = e => {
@@ -36,7 +22,7 @@ const ArticleDetail = ({ id, image, title, body, username, is_draft, is_publishe
             setPreview(reader.result);
         }
         reader.readAsDataURL(file);
-    }
+    } 
 
     const checkForURL = (i) => {
         const a = document.createElement('a');
@@ -101,7 +87,7 @@ const ArticleDetail = ({ id, image, title, body, username, is_draft, is_publishe
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        isAdmin ? adminSaveChanges(id) : saveChanges(id);
+        is_published ? adminSaveChanges(id) : saveChanges(id);
         setNewTitle(title)
         setNewBody(body)
         setNewImage(null)
