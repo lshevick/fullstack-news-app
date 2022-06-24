@@ -5,7 +5,7 @@ function handleError(err) {
     console.warn(err);
 }
 
-const ArticleDetail = ({ id, image, title, body, username, is_draft, is_published, articles, setArticles, isAuth, userSubmittedArticles, setUserSubmittedArticles, userArticles, setUserArticles, review, setReview, getReviewArticles, getArticles }) => {
+const ArticleDetail = ({ id, image, title, body, username, is_draft, is_published, articles, setArticles, isAuth, userSubmittedArticles, setUserSubmittedArticles, userArticles, setUserArticles, review, setReview, getReviewArticles, getArticles, deleteArticle }) => {
     const [isEditing, setIsEditing] = useState(false);
     const [newImage, setNewImage] = useState(image);
     const [newTitle, setNewTitle] = useState(title);
@@ -33,23 +33,22 @@ const ArticleDetail = ({ id, image, title, body, username, is_draft, is_publishe
 
 
 
-    const deleteArticle = async (id) => {
-        const options = {
-            method: 'DELETE',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRFToken': Cookies.get('csrftoken'),
-            },
-        }
-        const response = await fetch(`/api/v1/articles/${id}/`, options).catch(handleError);
-        if (!response.ok) {
-            throw new Error('Network response not ok');
-        }
-        // const json = await response.json();
-        // console.log(json)
-        getReviewArticles();
-        getArticles();
-    }
+    // const deleteArticle = async (id) => {
+    //     const options = {
+    //         method: 'DELETE',
+    //         headers: {
+    //             'Content-Type': 'application/json',
+    //             'X-CSRFToken': Cookies.get('csrftoken'),
+    //         },
+    //     }
+    //     const response = await fetch(`/api/v1/articles/${id}/`, options).catch(handleError);
+    //     if (!response.ok) {
+    //         throw new Error('Network response not ok');
+    //     }
+    //     // const json = await response.json();
+    //     // console.log(json)
+    //     getReviewArticles();
+    // }
 
     const deleteArticleButton = (
         <div>
@@ -140,7 +139,7 @@ const ArticleDetail = ({ id, image, title, body, username, is_draft, is_publishe
 
 
     const articlePreview = (
-        <li key={id} className='mt-4 p-3 bg-stone-400'>
+        <li key={id} className='mt-4 p-3 bg-stone-400 rounded shadow shadow-stone-400'>
             {is_draft && <p className='text-red-800 font-extrabold text-3xl'>DRAFT</p>}
             <div className='flex justify-center'>
                 <img src={image} alt="a newspaper" width='90%' />
@@ -161,7 +160,7 @@ const ArticleDetail = ({ id, image, title, body, username, is_draft, is_publishe
     )
 
     const editingView = (
-        <li key={id} className='mt-4 p-3 bg-stone-400'>
+        <li key={id} className='mt-4 p-3 bg-stone-400 rounded shadow shadow-stone-400'>
 
             <form onSubmit={handleSubmit}>
 
@@ -187,7 +186,7 @@ const ArticleDetail = ({ id, image, title, body, username, is_draft, is_publishe
                 </div>
                 <div className='flex justify-center'>
                     <button type='submit' className='p-1 bg-emerald-600 text-white font-semibold rounded hover:bg-emerald-500 m-4'>Save Changes</button>
-                    {!is_published ? deleteArticleButton : null}
+                    {(Cookies.get('isAdmin') === 'admin') ? deleteArticleButton : null}
                 </div>
             </form>
         </li>
