@@ -33,6 +33,7 @@ const LoginScreen = () => {
     );
 
     if (!response.ok) {
+        alert('Incorrect password, try again.')
       throw new Error("Netowrk reponse is not ok");
     }
 
@@ -79,7 +80,6 @@ const LoginScreen = () => {
         </button>
       </form>
       <p className="text-white mt-3 font-light text-sm">
-        {/* <button type='button' onClick={() => setScreen('register')} className='underline hover:text-blue-500'>Register</button> to become a contributor */}
         <Link to="/register">Register</Link>
       </p>
     </>
@@ -89,8 +89,6 @@ const LoginScreen = () => {
     <div className="h-screen flex flex-col justify-center items-center">
       <h1 className="p-3 my-3 font-bold text-3xl font-serif">NEWS APP</h1>
       {loginView}
-      {/* {screen === 'login' && loginView} */}
-      {/* {screen === 'register' && <RegisterForm setScreen={setScreen} />} */}
     </div>
   );
 };

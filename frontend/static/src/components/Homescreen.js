@@ -36,8 +36,8 @@ const Homescreen = ({ setIsAuth, isAuth, navigate, isAdmin }) => {
   return (
     <div className="h-full">
       <nav className="py-2 h-16 flex sm:justify-between justify-end items-center bg-stone-500 fixed top-0 w-full">
-        <h1 className="hidden sm:block font-bold text-4xl mx-3 text-pink-800">
-          NEWS YAY
+        <h1 className="font-serif hidden sm:block font-bold text-4xl mx-3 text-pink-300">
+          Java Jam
         </h1>
         <div className="h-full flex items-center">
           <NavLink

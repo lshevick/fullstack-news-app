@@ -256,7 +256,7 @@ const ArticleDetail = ({
           >
             Save Changes
           </button>
-          {Cookies.get("isAdmin") === "admin" ? deleteArticleButton : null}
+          {deleteArticleButton}
         </div>
       </form>
     </li>

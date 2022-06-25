@@ -61,12 +61,30 @@ const DashboardView = ({ articles, setArticles, isAuth }) => {
     getUserSubmittedArticles();
   }, [dataChanged]);
 
+  const deleteArticle = async (id) => {
+    const options = {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        "X-CSRFToken": Cookies.get("csrftoken"),
+      },
+    };
+    const response = await fetch(`/api/v1/articles/${id}/`, options).catch(
+      handleError
+    );
+    if (!response.ok) {
+      throw new Error("Network response not ok");
+    }
+    getUserArticles();
+  };
+
   return (
     <div className="py-20 px-5 lg:flex lg:items-start lg:justify-start h-full">
       <ArticleForm
         articles={articles}
         userArticles={userArticles}
         setUserArticles={setUserArticles}
+        setDataChanged={setDataChanged}
       />
       <div className="drafts w:5/6 sm:w-2/3 lg:w-1/3 mx-auto p-4 px-8 bg-neutral-300 rounded-md">
         <div className="border-b-2 border-black">
@@ -82,6 +100,7 @@ const DashboardView = ({ articles, setArticles, isAuth }) => {
                 setUserArticles={setUserArticles}
                 isAuth={isAuth}
                 setDataChanged={setDataChanged}
+                deleteArticle={deleteArticle}
               />
             ))}
           </ul>

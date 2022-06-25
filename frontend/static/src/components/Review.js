@@ -46,8 +46,6 @@ const Review = () => {
     if (!response.ok) {
       throw new Error("Network response not ok");
     }
-    // const json = await response.json();
-    // console.log(json)
     getReviewArticles();
   };
 

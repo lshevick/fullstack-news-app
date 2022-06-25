@@ -6,7 +6,7 @@ function handleError(err) {
   console.warn(err);
 }
 
-const ArticleForm = ({ articles, userArticles, setUserArticles }) => {
+const ArticleForm = ({ articles, userArticles, setUserArticles, setDataChanged }) => {
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
   const [image, setImage] = useState(null);
@@ -55,6 +55,7 @@ const ArticleForm = ({ articles, userArticles, setUserArticles }) => {
     setBody("");
     setIsDraft(false);
     setImage(null);
+    setDataChanged((prev) => !prev);
   };
 
   return (
