@@ -7,7 +7,6 @@ function handleError(err) {
 }
 
 const LoginScreen = () => {
-  // const [screen, setScreen] = useState('login');
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [isAuth, setIsAuth, navigate, isAdmin, setIsAdmin] = useOutletContext();
@@ -33,7 +32,7 @@ const LoginScreen = () => {
     );
 
     if (!response.ok) {
-        alert('Incorrect password, try again.')
+      alert("Incorrect password, try again.");
       throw new Error("Netowrk reponse is not ok");
     }
 

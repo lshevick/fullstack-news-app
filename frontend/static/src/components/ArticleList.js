@@ -6,7 +6,7 @@ function handleError(err) {
   console.warn(err);
 }
 
-const ArticleList = ({ /*articles, setArticles,*/ isAuth }) => {
+const ArticleList = ({ isAuth }) => {
   const [articles, setArticles] = useState([]);
 
   const getArticles = async () => {

@@ -1,11 +1,6 @@
-// import { useState } from 'react'
-// import ArticleList from './ArticleList';
-// import LoginScreen from './LoginScreen';
 import { Link } from "react-router-dom";
 
 const UnAuthView = ({ isAuth, setIsAuth }) => {
-  // const [screen, setScreen] = useState('newsfeed')
-  // const [articles, setArticles] = useState([]);
 
   return (
     <div className="h-full">
