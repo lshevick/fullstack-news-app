@@ -1,10 +1,9 @@
-import { useState } from 'react';
-import './App.css';
-import Cookies from 'js-cookie';
-import Homescreen from './components/Homescreen';
-import LoginScreen from './components/LoginScreen';
-import UnAuthView from './components/UnAuthView';
-import { Outlet, useNavigate } from 'react-router-dom';
+import { useState } from "react";
+import "./App.css";
+import Cookies from "js-cookie";
+import Homescreen from "./components/Homescreen";
+import UnAuthView from "./components/UnAuthView";
+import { Outlet, useNavigate } from "react-router-dom";
 
 // function handleError(err) {
 //   console.warn(err);
@@ -18,16 +17,23 @@ import { Outlet, useNavigate } from 'react-router-dom';
 // make sure to lock down the backend
 
 function App() {
-  const [isAuth, setIsAuth] = useState(!!Cookies.get('Authorization'));
-  const [isAdmin, setIsAdmin] = useState(Cookies.get('isAdmin'));
-
-
+  const [isAuth, setIsAuth] = useState(!!Cookies.get("Authorization"));
+  const [isAdmin, setIsAdmin] = useState(Cookies.get("isAdmin"));
 
   const navigate = useNavigate();
 
   return (
     <div className="App bg-neutral-700 h-full">
-      {isAuth ? <Homescreen setIsAuth={setIsAuth} isAuth={isAuth} navigate={navigate} isAdmin={isAdmin} /> : <UnAuthView isAuth={isAuth} setIsAuth={setIsAuth} />}
+      {isAuth ? (
+        <Homescreen
+          setIsAuth={setIsAuth}
+          isAuth={isAuth}
+          navigate={navigate}
+          isAdmin={isAdmin}
+        />
+      ) : (
+        <UnAuthView isAuth={isAuth} setIsAuth={setIsAuth} />
+      )}
       <Outlet context={[isAuth, setIsAuth, navigate, isAdmin, setIsAdmin]} />
     </div>
   );
