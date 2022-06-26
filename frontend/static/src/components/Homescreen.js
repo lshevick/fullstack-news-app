@@ -30,6 +30,7 @@ const Homescreen = ({ setIsAuth, isAuth, navigate, isAdmin }) => {
     const json = await response.json();
 
     Cookies.remove("Authorization", `Token ${json.key}`);
+    Cookies.remove('isAdmin');
     setIsAuth(false);
   };
 

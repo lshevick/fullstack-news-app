@@ -8,6 +8,7 @@ function handleError(err) {
 
 const Review = () => {
   const [review, setReview] = useState([]);
+  const [dataChanged, setDataChanged] = useState(false);
 
   const getReviewArticles = async () => {
     const options = {
@@ -31,6 +32,10 @@ const Review = () => {
   useEffect(() => {
     getReviewArticles();
   }, []);
+
+  useEffect(() => {
+    getReviewArticles();
+  }, [dataChanged]);
 
   const deleteArticle = async (id) => {
     const options = {
@@ -61,6 +66,7 @@ const Review = () => {
               setReview={setReview}
               getReviewArticles={getReviewArticles}
               deleteArticle={deleteArticle}
+              setDataChanged={setDataChanged}
             />
           ))}
         </ul>

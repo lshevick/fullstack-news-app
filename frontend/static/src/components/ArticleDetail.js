@@ -11,6 +11,7 @@ const ArticleDetail = ({
   image,
   title,
   body,
+  category,
   username,
   is_draft,
   is_published,
@@ -32,6 +33,7 @@ const ArticleDetail = ({
   const [newImage, setNewImage] = useState(image);
   const [newTitle, setNewTitle] = useState(title);
   const [newBody, setNewBody] = useState(body);
+  const [newCategory, setNewCategory] = useState(category);
   const [preview, setPreview] = useState(image);
   const [isNewDraft, setIsNewDraft] = useState(is_draft);
   const [isPublished, setIsPublished] = useState(is_published);
@@ -95,6 +97,7 @@ const ArticleDetail = ({
     const formData = new FormData();
     formData.append("title", newTitle);
     formData.append("body", newBody);
+    formData.append("category", newCategory);
     if (checkForURL(newImage)) {
     } else {
       formData.append("image", newImage);
@@ -127,6 +130,7 @@ const ArticleDetail = ({
     const formData = new FormData();
     formData.append("title", newTitle);
     formData.append("body", newBody);
+    formData.append("category", newCategory);
     if (checkForURL(newImage)) {
     } else {
       formData.append("image", newImage);
@@ -244,6 +248,16 @@ const ArticleDetail = ({
             id="body"
             value={newBody}
             onChange={(e) => setNewBody(e.target.value)}
+          />
+        </div>
+        <div>
+          <input
+            type="text"
+            name="category"
+            id="category"
+            value={newCategory}
+            onChange={(e) => setNewCategory(e.target.value)}
+            placeholder='Category'
           />
         </div>
         <div className="flex flex-col">

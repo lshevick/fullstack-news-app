@@ -6,10 +6,16 @@ function handleError(err) {
   console.warn(err);
 }
 
-const ArticleForm = ({ articles, userArticles, setUserArticles, setDataChanged }) => {
+const ArticleForm = ({
+  articles,
+  userArticles,
+  setUserArticles,
+  setDataChanged,
+}) => {
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
   const [image, setImage] = useState(null);
+  const [category, setCategory] = useState("");
   const [preview, setPreview] = useState("");
   const [isDraft, setIsDraft] = useState(false);
 
@@ -30,6 +36,7 @@ const ArticleForm = ({ articles, userArticles, setUserArticles, setDataChanged }
     formData.append("title", title);
     formData.append("body", body);
     formData.append("image", image);
+    formData.append('category', category);
     formData.append("is_draft", isDraft);
 
     const options = {
@@ -102,6 +109,16 @@ const ArticleForm = ({ articles, userArticles, setUserArticles, setDataChanged }
             onChange={handleImage}
           />
           {image && <img src={preview} alt="newspaper img" width="25%" />}
+        </div>
+        <div>
+          <input
+            type="text"
+            name="category"
+            id="category"
+            value={category}
+            onChange={(e) => setCategory(e.target.value.toLocaleLowerCase())}
+            placeholder='Category'
+          />
         </div>
         <div className="flex">
           <p className="p-1 my-auto">Save as Draft</p>
